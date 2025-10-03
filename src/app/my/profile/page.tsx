@@ -408,14 +408,18 @@ export default function ProfilePage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
                   <option value="">선택하세요</option>
-                  <option value="주 1회">주 1회</option>
-                  <option value="주 2-3회">주 2-3회</option>
-                  <option value="월 1-2회">월 1-2회</option>
-                  <option value="분기별">분기별</option>
+                  <option value="weekly">주 1회</option>
+                  <option value="biweekly">2주에 1회</option>
+                  <option value="monthly">월 1회</option>
+                  <option value="occasionally">가끔</option>
                 </select>
               ) : (
                 <p className="text-gray-900">
-                  {profile.participation_frequency || '-'}
+                  {profile.participation_frequency === 'weekly' ? '주 1회'
+                    : profile.participation_frequency === 'biweekly' ? '2주에 1회'
+                    : profile.participation_frequency === 'monthly' ? '월 1회'
+                    : profile.participation_frequency === 'occasionally' ? '가끔'
+                    : '-'}
                 </p>
               )}
             </div>
