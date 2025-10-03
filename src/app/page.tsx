@@ -75,9 +75,9 @@ export default function Home() {
                   <Link href="/community" className="text-gray-700 hover:text-primary transition">
                     커뮤니티
                   </Link>
-                  <span className="text-gray-700">
+                  <Link href="/my/profile" className="text-gray-700 hover:text-primary transition">
                     👋 <span className="font-semibold">{nickname}</span>님
-                  </span>
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="text-gray-500 hover:text-gray-700 transition"
