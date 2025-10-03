@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import Navigation from '@/components/Navigation';
 
 export default function CommunityWritePage() {
   const router = useRouter();
@@ -88,12 +89,11 @@ export default function CommunityWritePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-primary">
-            🌲 산림복지 시민정원사
-          </Link>
+      <Navigation />
+
+      <main className="max-w-4xl mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">글쓰기</h1>
           <Link
             href="/community"
             className="text-gray-700 hover:text-primary transition"
@@ -101,10 +101,6 @@ export default function CommunityWritePage() {
             ← 목록으로
           </Link>
         </div>
-      </header>
-
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">글쓰기</h1>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-8">
           {/* Type Selection */}

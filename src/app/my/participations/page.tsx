@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import type { Participation, Activity } from '@/types/database';
 import Link from 'next/link';
 import NotificationBell from '@/components/NotificationBell';
+import Navigation from '@/components/Navigation';
 
 type ParticipationWithActivity = Participation & {
   activity: Activity;
@@ -18,7 +19,6 @@ export default function ParticipationsPage() {
   >([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('all');
-  const [nickname, setNickname] = useState<string | null>(null);
 
   useEffect(() => {
     loadParticipations();
@@ -33,17 +33,6 @@ export default function ParticipationsPage() {
       if (!user) {
         router.push('/auth/login');
         return;
-      }
-
-      // Load user profile for nickname
-      const { data: profile } = await supabase
-        .from('user_profiles')
-        .select('nickname')
-        .eq('id', user.id)
-        .single();
-
-      if (profile) {
-        setNickname(profile.nickname);
       }
 
       const { data, error } = await supabase
@@ -125,37 +114,13 @@ export default function ParticipationsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-primary">
-            🌲 산림복지 시민정원사
-          </Link>
-          <div className="flex gap-4 items-center">
-            <NotificationBell />
-            {nickname && (
-              <span className="text-gray-700">
-                👋 <span className="font-semibold">{nickname}</span>님
-              </span>
-            )}
-            <Link
-              href="/dashboard"
-              className="text-gray-700 hover:text-primary transition"
-            >
-              대시보드
-            </Link>
-            <Link
-              href="/activities"
-              className="text-gray-700 hover:text-primary transition"
-            >
-              활동 목록
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">내 참여 활동</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">내 참여 활동</h1>
+          <NotificationBell />
+        </div>
 
         {/* Filter Tabs */}
         <div className="flex gap-4 mb-6">

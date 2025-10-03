@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import type { UserProfile, Activity, Recommendation } from '@/types/database';
 import Link from 'next/link';
 import NotificationBell from '@/components/NotificationBell';
+import Navigation from '@/components/Navigation';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -106,10 +107,6 @@ export default function DashboardPage() {
     }
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
-  };
 
   const generateRecommendations = async () => {
     if (!profile) return;
@@ -171,44 +168,18 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-primary">
-            🌲 산림복지 시민정원사
-          </Link>
-          <div className="flex items-center gap-4">
-            <NotificationBell />
-            <span className="text-gray-700">
-              👋 <span className="font-semibold">{profile.nickname}</span>님
-            </span>
-            <Link
-              href="/activities"
-              className="text-gray-700 hover:text-primary transition"
-            >
-              활동 목록
-            </Link>
-            <Link
-              href="/my/participations"
-              className="text-gray-700 hover:text-primary transition"
-            >
-              내 활동
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="text-gray-500 hover:text-gray-700 transition"
-            >
-              로그아웃
-            </button>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       <main className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">대시보드</h1>
+          <NotificationBell />
+        </div>
+
         {/* Welcome Section */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">
-            👋 {profile.nickname}님, 환영합니다!
+          <h2 className="text-2xl font-bold">
+            {profile.nickname}님의 활동 현황
           </h2>
         </div>
 

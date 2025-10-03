@@ -6,41 +6,18 @@ import type { Activity } from '@/types/database';
 import Link from 'next/link';
 import ActivityMap from '@/components/ActivityMap';
 import NotificationBell from '@/components/NotificationBell';
+import Navigation from '@/components/Navigation';
 
 export default function ActivitiesPage() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [regionFilter, setRegionFilter] = useState<string>('all');
-  const [nickname, setNickname] = useState<string | null>(null);
   const [showMap, setShowMap] = useState<boolean>(false);
 
   useEffect(() => {
     loadActivities();
-    loadUserProfile();
   }, [categoryFilter, regionFilter]);
-
-  const loadUserProfile = async () => {
-    try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        const { data: profile } = await supabase
-          .from('user_profiles')
-          .select('nickname')
-          .eq('id', user.id)
-          .single();
-
-        if (profile) {
-          setNickname(profile.nickname);
-        }
-      }
-    } catch (error) {
-      console.error('Error loading user profile:', error);
-    }
-  };
 
   const loadActivities = async () => {
     setLoading(true);
@@ -98,37 +75,13 @@ export default function ActivitiesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-primary">
-            🌲 산림복지 시민정원사
-          </Link>
-          <div className="flex gap-4 items-center">
-            <NotificationBell />
-            {nickname && (
-              <span className="text-gray-700">
-                👋 <span className="font-semibold">{nickname}</span>님
-              </span>
-            )}
-            <Link
-              href="/dashboard"
-              className="text-gray-700 hover:text-primary transition"
-            >
-              대시보드
-            </Link>
-            <Link
-              href="/my/participations"
-              className="text-gray-700 hover:text-primary transition"
-            >
-              내 활동
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       <main className="max-w-6xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">활동 목록</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">활동 목록</h1>
+          <NotificationBell />
+        </div>
 
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
