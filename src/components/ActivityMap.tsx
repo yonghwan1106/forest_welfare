@@ -79,29 +79,21 @@ export default function ActivityMap({
     // 기존 마커 제거
     // (실제로는 마커를 관리하는 state를 만들어서 제거하는 것이 좋습니다)
 
-    // 카테고리별 마커 색상
-    const getCategoryColor = (category: string) => {
+    // 카테고리별 색상 및 이모지
+    const getCategoryInfo = (category: string) => {
       switch (category) {
         case 'healing':
-          return 'green';
+          return { emoji: '🌲', color: '#10b981' };
         case 'education':
-          return 'blue';
+          return { emoji: '📚', color: '#3b82f6' };
         case 'volunteer':
-          return 'red';
+          return { emoji: '❤️', color: '#ef4444' };
         default:
-          return 'gray';
+          return { emoji: '📍', color: '#6b7280' };
       }
     };
 
-    // 카테고리별 마커 이미지
-    const getMarkerImage = (category: string) => {
-      const color = getCategoryColor(category);
-      const imageSrc = `https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_${color}.png`;
-      const imageSize = new window.kakao.maps.Size(24, 35);
-      return new window.kakao.maps.MarkerImage(imageSrc, imageSize);
-    };
-
-    // 마커 생성
+    // 커스텀 마커 생성 (HTML 오버레이 사용)
     activities.forEach((activity) => {
       if (!activity.latitude || !activity.longitude) return;
 
@@ -110,40 +102,70 @@ export default function ActivityMap({
         activity.longitude
       );
 
-      const marker = new window.kakao.maps.Marker({
-        position: position,
-        image: getMarkerImage(activity.category),
-        title: activity.title
+      const categoryInfo = getCategoryInfo(activity.category);
+
+      // 커스텀 오버레이 컨텐츠
+      const content = document.createElement('div');
+      content.style.cssText = `
+        background-color: ${categoryInfo.color};
+        border: 2px solid white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        transition: transform 0.2s;
+      `;
+      content.innerHTML = categoryInfo.emoji;
+      content.title = activity.title;
+
+      // 호버 효과
+      content.addEventListener('mouseenter', () => {
+        content.style.transform = 'scale(1.2)';
+      });
+      content.addEventListener('mouseleave', () => {
+        content.style.transform = 'scale(1)';
       });
 
-      marker.setMap(map);
+      const customOverlay = new window.kakao.maps.CustomOverlay({
+        position: position,
+        content: content,
+        yAnchor: 1
+      });
+
+      customOverlay.setMap(map);
 
       // 인포윈도우 생성
       const infowindow = new window.kakao.maps.InfoWindow({
         content: `
-          <div style="padding:10px;min-width:150px;">
+          <div style="padding:10px;min-width:150px;background:white;border-radius:8px;">
             <div style="font-weight:bold;margin-bottom:5px;">${activity.title}</div>
             <div style="font-size:12px;color:#666;">
               ${activity.location_sido} ${activity.location_sigungu}
             </div>
           </div>
-        `
+        `,
+        removable: false
       });
 
-      // 마커 클릭 이벤트
-      window.kakao.maps.event.addListener(marker, 'click', () => {
+      // 클릭 이벤트
+      content.addEventListener('click', () => {
         if (onMarkerClick) {
           onMarkerClick(activity.id);
         }
       });
 
-      // 마우스 오버 이벤트
-      window.kakao.maps.event.addListener(marker, 'mouseover', () => {
-        infowindow.open(map, marker);
+      // 마우스 오버 이벤트 - 인포윈도우 표시
+      content.addEventListener('mouseenter', () => {
+        infowindow.open(map, customOverlay);
       });
 
-      // 마우스 아웃 이벤트
-      window.kakao.maps.event.addListener(marker, 'mouseout', () => {
+      // 마우스 아웃 이벤트 - 인포윈도우 숨김
+      content.addEventListener('mouseleave', () => {
         infowindow.close();
       });
     });
@@ -165,17 +187,23 @@ export default function ActivityMap({
   return (
     <div>
       <div ref={mapContainer} style={{ width, height }} />
-      <div className="mt-4 flex gap-4 text-sm">
+      <div className="mt-4 flex gap-6 text-sm">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+          <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white shadow">
+            🌲
+          </div>
           <span>치유</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+          <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white shadow">
+            📚
+          </div>
           <span>교육</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+          <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white shadow">
+            ❤️
+          </div>
           <span>봉사</span>
         </div>
       </div>
