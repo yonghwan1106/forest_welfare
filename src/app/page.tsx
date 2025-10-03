@@ -54,9 +54,12 @@ export default function Home() {
       {!loading && (
         <header className="bg-white shadow-sm">
           <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <Link href="/" className="text-2xl font-bold text-primary">
-              🌲 산림복지 시민정원사
-            </Link>
+            <div>
+              <Link href="/" className="text-2xl font-bold text-primary block">
+                🌲 산림복지 시민정원사
+              </Link>
+              <p className="text-xs text-gray-500 mt-1">산림복지 국민소통 혁신 아이디어</p>
+            </div>
             <nav className="flex gap-6 items-center">
               <Link href="/about" className="text-gray-700 hover:text-primary transition">
                 소개
