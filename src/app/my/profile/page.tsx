@@ -9,16 +9,18 @@ import NotificationBell from '@/components/NotificationBell';
 interface UserProfile {
   id: string;
   nickname: string;
-  full_name: string | null;
   birth_date: string | null;
-  phone: string | null;
-  address: string | null;
+  age_group: string | null;
+  region_sido: string | null;
+  region_sigungu: string | null;
   interests: string[];
-  preferred_regions: string[];
-  preferred_days: string[];
+  available_times: string[];
+  participation_frequency: string | null;
+  experience_level: string | null;
   current_grade: string;
   total_hours: number;
   total_points: number;
+  profile_image_url: string | null;
   created_at: string;
 }
 
@@ -31,13 +33,14 @@ export default function ProfilePage() {
 
   // Form states
   const [nickname, setNickname] = useState('');
-  const [fullName, setFullName] = useState('');
   const [birthDate, setBirthDate] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
+  const [ageGroup, setAgeGroup] = useState('');
+  const [regionSido, setRegionSido] = useState('');
+  const [regionSigungu, setRegionSigungu] = useState('');
   const [interests, setInterests] = useState<string[]>([]);
-  const [preferredRegions, setPreferredRegions] = useState<string[]>([]);
-  const [preferredDays, setPreferredDays] = useState<string[]>([]);
+  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [participationFrequency, setParticipationFrequency] = useState('');
+  const [experienceLevel, setExperienceLevel] = useState('');
 
   useEffect(() => {
     loadProfile();
@@ -65,13 +68,14 @@ export default function ProfilePage() {
       setProfile(profileData);
       // Initialize form states
       setNickname(profileData.nickname || '');
-      setFullName(profileData.full_name || '');
       setBirthDate(profileData.birth_date || '');
-      setPhone(profileData.phone || '');
-      setAddress(profileData.address || '');
+      setAgeGroup(profileData.age_group || '');
+      setRegionSido(profileData.region_sido || '');
+      setRegionSigungu(profileData.region_sigungu || '');
       setInterests(profileData.interests || []);
-      setPreferredRegions(profileData.preferred_regions || []);
-      setPreferredDays(profileData.preferred_days || []);
+      setAvailableTimes(profileData.available_times || []);
+      setParticipationFrequency(profileData.participation_frequency || '');
+      setExperienceLevel(profileData.experience_level || '');
     } catch (error) {
       console.error('Error loading profile:', error);
       alert('프로필 정보를 불러오는데 실패했습니다.');
@@ -94,13 +98,14 @@ export default function ProfilePage() {
         .from('user_profiles')
         .update({
           nickname: nickname.trim(),
-          full_name: fullName.trim() || null,
           birth_date: birthDate || null,
-          phone: phone.trim() || null,
-          address: address.trim() || null,
+          age_group: ageGroup || null,
+          region_sido: regionSido || null,
+          region_sigungu: regionSigungu || null,
           interests,
-          preferred_regions: preferredRegions,
-          preferred_days: preferredDays,
+          available_times: availableTimes,
+          participation_frequency: participationFrequency || null,
+          experience_level: experienceLevel || null,
         })
         .eq('id', profile.id);
 
@@ -120,13 +125,14 @@ export default function ProfilePage() {
   const handleCancel = () => {
     if (profile) {
       setNickname(profile.nickname || '');
-      setFullName(profile.full_name || '');
       setBirthDate(profile.birth_date || '');
-      setPhone(profile.phone || '');
-      setAddress(profile.address || '');
+      setAgeGroup(profile.age_group || '');
+      setRegionSido(profile.region_sido || '');
+      setRegionSigungu(profile.region_sigungu || '');
       setInterests(profile.interests || []);
-      setPreferredRegions(profile.preferred_regions || []);
-      setPreferredDays(profile.preferred_days || []);
+      setAvailableTimes(profile.available_times || []);
+      setParticipationFrequency(profile.participation_frequency || '');
+      setExperienceLevel(profile.experience_level || '');
     }
     setEditing(false);
   };
@@ -139,17 +145,9 @@ export default function ProfilePage() {
     );
   };
 
-  const toggleRegion = (region: string) => {
-    setPreferredRegions((prev) =>
-      prev.includes(region)
-        ? prev.filter((r) => r !== region)
-        : [...prev, region]
-    );
-  };
-
-  const toggleDay = (day: string) => {
-    setPreferredDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+  const toggleAvailableTime = (time: string) => {
+    setAvailableTimes((prev) =>
+      prev.includes(time) ? prev.filter((t) => t !== time) : [...prev, time]
     );
   };
 
@@ -238,23 +236,6 @@ export default function ProfilePage() {
               )}
             </div>
 
-            {/* Full Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                이름
-              </label>
-              {editing ? (
-                <input
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              ) : (
-                <p className="text-gray-900">{profile.full_name || '-'}</p>
-              )}
-            </div>
-
             {/* Birth Date */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -272,38 +253,61 @@ export default function ProfilePage() {
               )}
             </div>
 
-            {/* Phone */}
+            {/* Age Group */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                전화번호
+                연령대
               </label>
               {editing ? (
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="010-0000-0000"
+                <select
+                  value={ageGroup}
+                  onChange={(e) => setAgeGroup(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
+                >
+                  <option value="">선택하세요</option>
+                  <option value="20대">20대</option>
+                  <option value="30대">30대</option>
+                  <option value="40대">40대</option>
+                  <option value="50대">50대</option>
+                  <option value="60대 이상">60대 이상</option>
+                </select>
               ) : (
-                <p className="text-gray-900">{profile.phone || '-'}</p>
+                <p className="text-gray-900">{profile.age_group || '-'}</p>
               )}
             </div>
 
-            {/* Address */}
+            {/* Region */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                주소
+                지역
               </label>
               {editing ? (
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
+                <div className="grid grid-cols-2 gap-4">
+                  <select
+                    value={regionSido}
+                    onChange={(e) => setRegionSido(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+                    <option value="">시/도 선택</option>
+                    <option value="서울특별시">서울특별시</option>
+                    <option value="경기도">경기도</option>
+                    <option value="인천광역시">인천광역시</option>
+                    <option value="강원특별자치도">강원특별자치도</option>
+                  </select>
+                  <input
+                    type="text"
+                    value={regionSigungu}
+                    onChange={(e) => setRegionSigungu(e.target.value)}
+                    placeholder="시/군/구"
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
               ) : (
-                <p className="text-gray-900">{profile.address || '-'}</p>
+                <p className="text-gray-900">
+                  {profile.region_sido && profile.region_sigungu
+                    ? `${profile.region_sido} ${profile.region_sigungu}`
+                    : profile.region_sido || '-'}
+                </p>
               )}
             </div>
 
@@ -350,68 +354,81 @@ export default function ProfilePage() {
               )}
             </div>
 
-            {/* Preferred Regions */}
+            {/* Available Times */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                선호 지역
+                활동 가능 시간
               </label>
               {editing ? (
                 <div className="flex gap-2 flex-wrap">
-                  {['서울특별시', '경기도', '인천광역시', '강원특별자치도'].map(
-                    (region) => (
+                  {['평일 오전', '평일 오후', '주말 오전', '주말 오후'].map(
+                    (time) => (
                       <button
-                        key={region}
+                        key={time}
                         type="button"
-                        onClick={() => toggleRegion(region)}
+                        onClick={() => toggleAvailableTime(time)}
                         className={`px-4 py-2 rounded-lg border transition ${
-                          preferredRegions.includes(region)
+                          availableTimes.includes(time)
                             ? 'bg-primary text-white border-primary'
                             : 'bg-white text-gray-700 border-gray-300 hover:border-primary'
                         }`}
                       >
-                        {region}
+                        {time}
                       </button>
                     )
                   )}
                 </div>
               ) : (
                 <p className="text-gray-900">
-                  {profile.preferred_regions &&
-                  profile.preferred_regions.length > 0
-                    ? profile.preferred_regions.join(', ')
+                  {profile.available_times && profile.available_times.length > 0
+                    ? profile.available_times.join(', ')
                     : '-'}
                 </p>
               )}
             </div>
 
-            {/* Preferred Days */}
+            {/* Participation Frequency */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                선호 요일
+                참여 빈도
               </label>
               {editing ? (
-                <div className="flex gap-2 flex-wrap">
-                  {['월', '화', '수', '목', '금', '토', '일'].map((day) => (
-                    <button
-                      key={day}
-                      type="button"
-                      onClick={() => toggleDay(day)}
-                      className={`px-4 py-2 rounded-lg border transition ${
-                        preferredDays.includes(day)
-                          ? 'bg-primary text-white border-primary'
-                          : 'bg-white text-gray-700 border-gray-300 hover:border-primary'
-                      }`}
-                    >
-                      {day}
-                    </button>
-                  ))}
-                </div>
+                <select
+                  value={participationFrequency}
+                  onChange={(e) => setParticipationFrequency(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">선택하세요</option>
+                  <option value="주 1회">주 1회</option>
+                  <option value="주 2-3회">주 2-3회</option>
+                  <option value="월 1-2회">월 1-2회</option>
+                  <option value="분기별">분기별</option>
+                </select>
               ) : (
                 <p className="text-gray-900">
-                  {profile.preferred_days && profile.preferred_days.length > 0
-                    ? profile.preferred_days.join(', ')
-                    : '-'}
+                  {profile.participation_frequency || '-'}
                 </p>
+              )}
+            </div>
+
+            {/* Experience Level */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                경험 수준
+              </label>
+              {editing ? (
+                <select
+                  value={experienceLevel}
+                  onChange={(e) => setExperienceLevel(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                >
+                  <option value="">선택하세요</option>
+                  <option value="초보">초보</option>
+                  <option value="중급">중급</option>
+                  <option value="고급">고급</option>
+                </select>
+              ) : (
+                <p className="text-gray-900">{profile.experience_level || '-'}</p>
               )}
             </div>
 
