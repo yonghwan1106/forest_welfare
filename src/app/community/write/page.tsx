@@ -77,7 +77,7 @@ export default function CommunityWritePage() {
       if (error) throw error;
 
       alert('게시글이 작성되었습니다!');
-      router.push(`/community/${data.id}`);
+      router.push('/community');
     } catch (error: any) {
       console.error('Error creating post:', error);
       alert(error.message || '게시글 작성 중 오류가 발생했습니다.');
