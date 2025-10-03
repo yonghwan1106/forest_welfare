@@ -1,0 +1,9 @@
+Security: run-schema.bat에서 하드코딩된 키 제거
+
+- Service Role Key를 환경 변수로 대체
+- SUPABASE_SERVICE_ROLE_KEY 환경 변수 사용
+- 보안 취약점 수정
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>

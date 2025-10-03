@@ -1,0 +1,1 @@
+- 1.https://forest-welfare.vercel.app/dashboard, https://forest-welfare.vercel.app/activities, https://forest-welfare.vercel.app/my/participations에서 로그인한 상태에서는 [Image #1]처럼 사용자 이름이 계속 보이도록 해줘. #2메인페이지에 작은 글씨로 '2025년 산림복지 국민소통 혁신 아이디어 출품작'이라고 명시해줘

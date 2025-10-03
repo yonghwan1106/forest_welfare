@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app:*)",
+      "Bash(dir)",
+      "Bash(npm install)",
+      "Bash(claude mcp add:*)",
+      "Bash(dir:*)",
+      "Bash(npm run build:*)",
+      "Bash(tree:*)",
+      "Bash(cat:*)",
+      "Bash(npx supabase db push:*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(echo:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:forest-welfare.vercel.app)",
+      "mcp__supabase__list_projects",
+      "mcp__supabase__execute_sql"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

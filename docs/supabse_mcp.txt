@@ -1,0 +1,1 @@
+claude mcp add --transport http supabase "https://server.smithery.ai/supabase/mcp"
