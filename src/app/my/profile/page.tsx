@@ -265,14 +265,23 @@ export default function ProfilePage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
                   <option value="">선택하세요</option>
-                  <option value="20대">20대</option>
-                  <option value="30대">30대</option>
-                  <option value="40대">40대</option>
-                  <option value="50대">50대</option>
-                  <option value="60대 이상">60대 이상</option>
+                  <option value="20s">20대</option>
+                  <option value="30s">30대</option>
+                  <option value="40s">40대</option>
+                  <option value="50s">50대</option>
+                  <option value="60s">60대</option>
+                  <option value="70s+">70대 이상</option>
                 </select>
               ) : (
-                <p className="text-gray-900">{profile.age_group || '-'}</p>
+                <p className="text-gray-900">
+                  {profile.age_group === '20s' ? '20대'
+                    : profile.age_group === '30s' ? '30대'
+                    : profile.age_group === '40s' ? '40대'
+                    : profile.age_group === '50s' ? '50대'
+                    : profile.age_group === '60s' ? '60대'
+                    : profile.age_group === '70s+' ? '70대 이상'
+                    : '-'}
+                </p>
               )}
             </div>
 
