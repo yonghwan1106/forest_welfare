@@ -57,18 +57,24 @@ export default function Home() {
             <Link href="/" className="text-2xl font-bold text-primary">
               🌲 산림복지 시민정원사
             </Link>
-            <div className="flex gap-4 items-center">
+            <nav className="flex gap-6 items-center">
+              <Link href="/about" className="text-gray-700 hover:text-primary transition">
+                소개
+              </Link>
+              <Link href="/activities" className="text-gray-700 hover:text-primary transition">
+                활동
+              </Link>
               {user && nickname ? (
                 <>
+                  <Link href="/dashboard" className="text-gray-700 hover:text-primary transition">
+                    대시보드
+                  </Link>
+                  <Link href="/community" className="text-gray-700 hover:text-primary transition">
+                    커뮤니티
+                  </Link>
                   <span className="text-gray-700">
                     👋 <span className="font-semibold">{nickname}</span>님
                   </span>
-                  <Link
-                    href="/dashboard"
-                    className="text-primary hover:underline"
-                  >
-                    대시보드
-                  </Link>
                   <button
                     onClick={handleLogout}
                     className="text-gray-500 hover:text-gray-700 transition"
@@ -92,7 +98,7 @@ export default function Home() {
                   </Link>
                 </>
               )}
-            </div>
+            </nav>
           </div>
         </header>
       )}
@@ -125,7 +131,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex gap-4 justify-center">
+        <div className="flex gap-4 justify-center flex-wrap">
           {user && nickname ? (
             <>
               <Link
@@ -150,10 +156,10 @@ export default function Home() {
                 시작하기
               </Link>
               <Link
-                href="/auth/login"
+                href="/about"
                 className="bg-white text-primary border-2 border-primary px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-50 transition"
               >
-                로그인
+                프로젝트 소개
               </Link>
             </>
           )}
