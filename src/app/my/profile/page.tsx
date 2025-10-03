@@ -432,12 +432,17 @@ export default function ProfilePage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
                   <option value="">선택하세요</option>
-                  <option value="초보">초보</option>
-                  <option value="중급">중급</option>
-                  <option value="고급">고급</option>
+                  <option value="beginner">초보</option>
+                  <option value="intermediate">중급</option>
+                  <option value="advanced">고급</option>
                 </select>
               ) : (
-                <p className="text-gray-900">{profile.experience_level || '-'}</p>
+                <p className="text-gray-900">
+                  {profile.experience_level === 'beginner' ? '초보'
+                    : profile.experience_level === 'intermediate' ? '중급'
+                    : profile.experience_level === 'advanced' ? '고급'
+                    : '-'}
+                </p>
               )}
             </div>
 
