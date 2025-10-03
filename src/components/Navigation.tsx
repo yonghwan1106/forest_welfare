@@ -58,35 +58,38 @@ export default function Navigation() {
   };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold text-primary">
-          🌲 산림복지 시민정원사
-        </Link>
-        <nav className="flex gap-6 items-center">
-          <Link href="/about" className="text-gray-700 hover:text-primary transition">
+    <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-green-100">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col items-center sm:items-start">
+          <Link href="/" className="text-2xl sm:text-3xl font-bold text-primary hover:scale-105 transition-transform">
+            🌲 산림복지 시민정원사
+          </Link>
+          <p className="text-xs text-gray-500 mt-1">2025년 산림복지 국민소통 혁신 아이디어 출품작</p>
+        </div>
+        <nav className="flex flex-wrap gap-3 sm:gap-6 items-center justify-center">
+          <Link href="/about" className="text-gray-700 hover:text-primary font-medium transition-all hover:scale-105">
             소개
           </Link>
-          <Link href="/activities" className="text-gray-700 hover:text-primary transition">
+          <Link href="/activities" className="text-gray-700 hover:text-primary font-medium transition-all hover:scale-105">
             활동
           </Link>
           {user && nickname ? (
             <>
-              <Link href="/dashboard" className="text-gray-700 hover:text-primary transition">
+              <Link href="/dashboard" className="text-gray-700 hover:text-primary font-medium transition-all hover:scale-105">
                 대시보드
               </Link>
-              <Link href="/community" className="text-gray-700 hover:text-primary transition">
+              <Link href="/community" className="text-gray-700 hover:text-primary font-medium transition-all hover:scale-105">
                 커뮤니티
               </Link>
-              <Link href="/my/participations" className="text-gray-700 hover:text-primary transition">
+              <Link href="/my/participations" className="text-gray-700 hover:text-primary font-medium transition-all hover:scale-105">
                 내 활동
               </Link>
-              <Link href="/my/profile" className="text-gray-700 hover:text-primary transition">
-                👋 <span className="font-semibold">{nickname}</span>님
+              <Link href="/my/profile" className="text-primary hover:text-green-700 font-semibold transition-all hover:scale-105 bg-green-50 px-3 py-1.5 rounded-full">
+                👋 {nickname}님
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-gray-500 hover:text-gray-700 transition"
+                className="text-gray-500 hover:text-gray-700 font-medium transition-all hover:scale-105"
               >
                 로그아웃
               </button>
@@ -95,13 +98,13 @@ export default function Navigation() {
             <>
               <Link
                 href="/auth/login"
-                className="text-gray-700 hover:text-primary transition"
+                className="text-gray-700 hover:text-primary font-medium transition-all hover:scale-105"
               >
                 로그인
               </Link>
               <Link
                 href="/auth/signup"
-                className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition"
+                className="bg-primary text-white px-5 py-2 rounded-full hover:bg-green-700 transition-all hover:scale-105 hover:shadow-lg font-medium"
               >
                 회원가입
               </Link>
